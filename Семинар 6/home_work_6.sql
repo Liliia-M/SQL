@@ -48,14 +48,18 @@ CALL proc_sec_(123456);
     DETERMINISTIC
     BEGIN
     DECLARE i INT DEFAULT 1; 
-    DECLARE result VARCHAR(45) DEFAULT '0 1';
+    DECLARE result VARCHAR(45) DEFAULT 'NULL';
     
-    WHILE i < num 
+    WHILE i <= num 
     DO
 		IF i % 2 = 0 THEN
-			SET result = CONCAT(result,' ', i);
+			IF result IS NULL THEN
+                SET result = CONCAT(i);
+			ELSE
+				SET result = CONCAT(result,', ', i);
             END IF;
-		    SET i = i + 2;         
+		END IF;
+		SET i = i + 1;         
      END WHILE;
      RETURN result;
      END //
